@@ -1,5 +1,5 @@
 const {Router} = require('express')
-const { getAll, create, deleteOne, update } = require('../controllers/taqveem.controller')
+const { getAll, create, deleteOne, update, getOne } = require('../controllers/taqveem.controller')
 const { taqveem } = require('../models/taqveem.schema')
 
 const taqveemRouter = Router()
@@ -29,6 +29,38 @@ const taqveemRouter = Router()
  */
 taqveemRouter.get('/taqveem', getAll);
 
+
+/**
+ * @swagger
+ * /taqveem/{sana}:
+ *   get:
+ *     summary: Bitta ma'lumotni olish (sanaga ko'ra)
+ *     tags: [Taqveem]
+ *     parameters:
+ *       - in: path
+ *         name: sana
+ *         required: true
+ *         schema:
+ *           type: string
+ *         example: "2023-03-23"
+ *     responses:
+ *       200:
+ *         description: Success
+ *         content:
+ *           application/json:
+ *             example:
+ *               sana: "2023-03-23"
+ *               saharlik: "05:30"
+ *               iftorlik: "18:45"
+ *       404:
+ *         description: Topilmadi
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: "Ma'lumot topilmadi"
+ */
+taqveemRouter.get('/taqveem/:sana', getOne)
+
 /**
  * @swagger
  * /taqveem:
@@ -45,7 +77,7 @@ taqveemRouter.get('/taqveem', getAll);
  *               sana:
  *                 type: string
  *                 format: date
- *                 example: "2023-03-24"
+ *                 example: "2023-03-23"
  *               saharlik:
  *                 type: string
  *                 example: "05:29"
@@ -60,7 +92,7 @@ taqveemRouter.get('/taqveem', getAll);
  *             example:
  *               message: "Created successfully"
  *               data:
- *                 sana: "2023-03-24"
+ *                 sana: "2023-03-23"
  *                 saharlik: "05:29"
  *                 iftorlik: "18:46"
  */
@@ -78,7 +110,7 @@ taqveemRouter.post('/taqveem', create);
  *         required: true
  *         schema:
  *           type: string
- *         example: "2023-03-24"
+ *         example: "2023-03-23"
  *     requestBody:
  *       required: true
  *       content:
@@ -100,7 +132,7 @@ taqveemRouter.post('/taqveem', create);
  *             example:
  *               message: "Ma'lumot muvaffaqiyatli yangilandi"
  *               data:
- *                 sana: "2023-03-24"
+ *                 sana: "2023-03-23"
  *                 saharlik: "05:28"
  *                 iftorlik: "18:47"
  *       404:
@@ -120,7 +152,7 @@ taqveemRouter.put('/taqveem/:sana', update);
  *         required: true
  *         schema:
  *           type: string
- *         example: "2023-03-24"
+ *         example: "2023-03-23"
  *     responses:
  *       200:
  *         description: Deleted
@@ -128,7 +160,7 @@ taqveemRouter.put('/taqveem/:sana', update);
  *           application/json:
  *             example:
  *               message: "Deleted successfully"
- *               sana: "2023-03-24"
+ *               sana: "2023-03-23"
  *       404:
  *         description: Not Found
  */

@@ -13,6 +13,7 @@ app.use(express.json())
 app.use(cors())
 connectDB()
 
+const PORT = process.env.PORT || 4001
 const swaggerOptions = {
   swaggerDefinition: {
     openapi: '3.0.0',
@@ -22,7 +23,7 @@ const swaggerOptions = {
       description: 'Ramazon taqvimi malumotlarini boshqarish API',
     },
     servers: [
-      { url: 'http://localhost:4000', description: 'Local server' },
+      { url: `http://localhost:${PORT}`, description: 'Local server' },
     ],
   },
   apis: ['./routers/*.js'],
@@ -37,7 +38,6 @@ app.get('/', (req,res) => {
 
 app.use('/',taqveemRouter)
 
-const PORT = process.env.PORT || 4001
 app.listen(PORT, () => {
 	console.log(`> Server is running on ${PORT}`)
 })
