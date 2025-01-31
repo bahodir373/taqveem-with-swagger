@@ -37,8 +37,8 @@ app.get('/', (req,res) => {
 	res.status(200).send(`<h1>Server is running</h1>`)
 })
 
-app.use(taqveemRouter)
-app.use(duaRouter)
+app.use('/api',taqveemRouter)
+app.use('/api',duaRouter)
 
 app.listen(PORT, () => {
 	console.log(`> Server is running on ${PORT}`)

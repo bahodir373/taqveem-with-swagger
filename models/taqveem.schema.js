@@ -50,7 +50,7 @@ const taqveemSchema = new Schema(
   }
 );
 
-const taqveem = model('Calendar', taqveemSchema);
+const taqveem = model('taqveem', taqveemSchema);
 
 module.exports = {
   taqveem,

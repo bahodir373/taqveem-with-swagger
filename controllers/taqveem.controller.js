@@ -55,6 +55,23 @@ const create = async (req, res) => {
   }
 }
 
+const insertManyTaqveem = async (req, res) => {
+  try {
+    const taqveems = req.body;
+
+    const newTaqveems = await taqveem.insertMany(taqveems);
+
+    return res.status(201).json({
+      message: "Barcha taqveemlar muvaffaqiyatli qo‘shildi",
+      newTaqveems,
+    });
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).json({ error: error.message });
+  }
+};
+
+
 
 const update = async (req, res) => {
   try {
@@ -124,5 +141,6 @@ module.exports = {
 	getOne,
 	create,
 	update,
-	deleteOne
+	deleteOne,
+  insertManyTaqveem
 }

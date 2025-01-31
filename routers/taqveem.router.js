@@ -5,6 +5,7 @@ const {
   deleteOne,
   update,
   getOne,
+	insertManyTaqveem,
 } = require("../controllers/taqveem.controller");
 
 const taqveemRouter = Router();
@@ -175,6 +176,30 @@ taqveemRouter.put("/taqveem/:serial", update);
  *         description: Ma'lumot topilmadi
  */
 taqveemRouter.delete("/taqveem/:serial", deleteOne);
+
+/**
+ * @swagger
+ * /api/taqveem/batch:
+ *   post:
+ *     summary: Bir vaqtning o‘zida bir nechta taqveem ma'lumotlarini qo‘shish
+ *     tags: [Taqveem]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: array
+ *             items:
+ *               $ref: '#/components/schemas/Taqveem'
+ *     responses:
+ *       201:
+ *         description: Barcha taqveem ma'lumotlari muvaffaqiyatli qo‘shildi
+ *       400:
+ *         description: Noto‘g‘ri so‘rov
+ */
+
+taqveemRouter.post("/taqveem/batch", insertManyTaqveem);
+
 
 module.exports = {
   taqveemRouter,
