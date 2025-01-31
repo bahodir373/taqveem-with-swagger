@@ -6,6 +6,7 @@ const cors = require('cors')
 
 const swaggerJsdoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
+const duaRouter = require('./routers/dua.router')
 
 
 const app = express();
@@ -36,7 +37,8 @@ app.get('/', (req,res) => {
 	res.status(200).send(`<h1>Server is running</h1>`)
 })
 
-app.use('/',taqveemRouter)
+app.use(taqveemRouter)
+app.use(duaRouter)
 
 app.listen(PORT, () => {
 	console.log(`> Server is running on ${PORT}`)

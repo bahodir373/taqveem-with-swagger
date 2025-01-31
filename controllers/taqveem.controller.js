@@ -4,9 +4,7 @@ const getAll = async (req, res) => {
 	try {
 		const data = await taqveem.find()
 
-		return res.status(200).json({
-			data
-		})
+		return res.status(200).json(data)
 	} catch (error) {
 		console.log(error.message)
 		res.status(500).json({ error: error.message })
@@ -15,13 +13,13 @@ const getAll = async (req, res) => {
 
 const getOne = async (req,res) => {
   try {
-    const { sana } = req.params
-    const result = await taqveem.findOne({ sana: sana })
+    const { serial } = req.params
+    const result = await taqveem.findOne({ serial: serial })
 
     if (!result) {
       return res.status(404).json({ message: "Ma'lumot topilmadi" })
     }
-    return res.status(200).json({ data: result })
+    return res.status(200).json(result)
   } catch (error) {
     console.log(error.message)
     res.status(500).json({ error: error.message })
@@ -30,12 +28,26 @@ const getOne = async (req,res) => {
 
 const create = async (req, res) => {
   try {
-    const { sana, saharlik, iftorlik } = req.body
-    const newData = await taqveem.create({ sana, saharlik, iftorlik })
+    const { serial,
+      category,
+      date,
+      shortDate,
+      day,
+      sehri,
+      fajar,
+      ifter } = req.body
+    const newData = await taqveem.create({ serial,
+      category,
+      date,
+      shortDate,
+      day,
+      sehri,
+      fajar,
+      ifter })
     
     return res.status(201).json({
       message: "Muvaffaqiyatli yaratildi",
-      data: newData
+      newData
     })
   } catch (error) {
     console.log(error.message)
@@ -46,12 +58,26 @@ const create = async (req, res) => {
 
 const update = async (req, res) => {
   try {
-    const { sana } = req.params
-    const { saharlik, iftorlik } = req.body 
+    const { serial } = req.params
+    const {
+      category,
+      date,
+      shortDate,
+      day,
+      sehri,
+      fajar,
+      ifter } = req.body 
 
     const updatedData = await taqveem.findOneAndUpdate(
-      { sana }, 
-      { saharlik, iftorlik },
+      { serial }, 
+      { serial,
+        category,
+        date,
+        shortDate,
+        day,
+        sehri,
+        fajar,
+        ifter },
       { new: true }
     )
 
@@ -61,7 +87,7 @@ const update = async (req, res) => {
 
     return res.status(200).json({
       message: "Ma'lumot muvaffaqiyatli yangilandi",
-      data: updatedData
+      updatedData
     })
   } catch (error) {
     console.log(error.message)
@@ -72,14 +98,14 @@ const update = async (req, res) => {
 
 const deleteOne = async (req, res) => {
 	try {
-		const { sana } = req.params
+		const { serial } = req.params
 
-		const result = await taqveem.deleteOne({ sana: sana })
+		const result = await taqveem.deleteOne({ serial: serial })
 
 		if (result.deletedCount > 0) {
 			return res.status(200).json({
 				message: "Muvaffaqiyatli o'chirildi",
-				sana: sana,
+				serial: serial,
 			})
 		} else {
 			return res.status(404).json({

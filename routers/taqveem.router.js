@@ -1,171 +1,181 @@
-const {Router} = require('express')
-const { getAll, create, deleteOne, update, getOne } = require('../controllers/taqveem.controller')
-const { taqveem } = require('../models/taqveem.schema')
+const { Router } = require("express");
+const {
+  getAll,
+  create,
+  deleteOne,
+  update,
+  getOne,
+} = require("../controllers/taqveem.controller");
 
-const taqveemRouter = Router()
+const taqveemRouter = Router();
 
 /**
  * @swagger
- * tags:
- *   name: Taqveem
- *   description: Ramazon taqvimi API
+ * components:
+ *   schemas:
+ *     Taqveem:
+ *       type: object
+ *       required:
+ *         - serial
+ *         - category
+ *         - date
+ *         - shortDate
+ *         - day
+ *         - sehri
+ *         - fajar
+ *         - ifter
+ *       properties:
+ *         serial:
+ *           type: integer
+ *           description: Unikal identifikator
+ *         category:
+ *           type: string
+ *           description: Taqvim turi (masalan, Ramazon)
+ *         date:
+ *           type: string
+ *           format: date
+ *           description: To'liq sana
+ *         shortDate:
+ *           type: string
+ *           description: Qisqa sana formati
+ *         day:
+ *           type: string
+ *           description: Haftaning kuni
+ *         sehri:
+ *           type: string
+ *           description: Saharlik vaqti
+ *         fajar:
+ *           type: string
+ *           description: Bomdod vaqti
+ *         ifter:
+ *           type: string
+ *           description: Iftorlik vaqti
+ *       example:
+ *         serial: 1
+ *         category: "Ramazon"
+ *         date: "03 April 2025"
+ *         shortDate: "4/3/2025"
+ *         day: "Juma"
+ *         sehri: "4:27 AM"
+ *         fajar: "4:27 AM"
+ *         ifter: "6:45 PM"
  */
 
 /**
  * @swagger
- * /taqveem:
+ * /api/taqveem:
  *   get:
  *     summary: Barcha taqvim ma'lumotlarini olish
  *     tags: [Taqveem]
  *     responses:
  *       200:
- *         description: Success
+ *         description: Barcha ma'lumotlar ro‘yxati
  *         content:
  *           application/json:
- *             example:
- *               - sana: "2023-03-23"
- *                 saharlik: "05:30"
- *                 iftorlik: "18:45"
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Taqveem'
  */
-taqveemRouter.get('/taqveem', getAll);
-
+taqveemRouter.get("/taqveem", getAll);
 
 /**
  * @swagger
- * /taqveem/{sana}:
+ * /api/taqveem/{serial}:
  *   get:
- *     summary: Bitta ma'lumotni olish (sanaga ko'ra)
+ *     summary: Bitta taqvim ma'lumotini olish
  *     tags: [Taqveem]
  *     parameters:
  *       - in: path
- *         name: sana
- *         required: true
+ *         name: serial
  *         schema:
- *           type: string
- *         example: "2023-03-23"
+ *           type: integer
+ *         required: true
+ *         description: Taqvim ID-si
  *     responses:
  *       200:
- *         description: Success
+ *         description: Topilgan ma'lumot
  *         content:
  *           application/json:
- *             example:
- *               sana: "2023-03-23"
- *               saharlik: "05:30"
- *               iftorlik: "18:45"
+ *             schema:
+ *               $ref: '#/components/schemas/Taqveem'
  *       404:
- *         description: Topilmadi
- *         content:
- *           application/json:
- *             example:
- *               message: "Ma'lumot topilmadi"
+ *         description: Ma'lumot topilmadi
  */
-taqveemRouter.get('/taqveem/:sana', getOne)
+taqveemRouter.get("/taqveem/:serial", getOne);
 
 /**
  * @swagger
- * /taqveem:
+ * /api/taqveem:
  *   post:
- *     summary: Yangi taqvim yaratish
+ *     summary: Yangi taqvim ma'lumotini qo‘shish
  *     tags: [Taqveem]
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
  *           schema:
- *             type: object
- *             properties:
- *               sana:
- *                 type: string
- *                 format: date
- *                 example: "2023-03-23"
- *               saharlik:
- *                 type: string
- *                 example: "05:29"
- *               iftorlik:
- *                 type: string
- *                 example: "18:46"
+ *             $ref: '#/components/schemas/Taqveem'
  *     responses:
- *       203:
- *         description: Created
+ *       201:
+ *         description: Ma'lumot yaratildi
  *         content:
  *           application/json:
- *             example:
- *               message: "Created successfully"
- *               data:
- *                 sana: "2023-03-23"
- *                 saharlik: "05:29"
- *                 iftorlik: "18:46"
+ *             schema:
+ *               $ref: '#/components/schemas/Taqveem'
+ *       400:
+ *         description: Noto'g'ri so‘rov
  */
-taqveemRouter.post('/taqveem', create);
+taqveemRouter.post("/taqveem", create);
 
 /**
  * @swagger
- * /taqveem/{sana}:
+ * /api/taqveem/{serial}:
  *   put:
- *     summary: Mavjud taqvimni yangilash
+ *     summary: Taqvim ma'lumotini yangilash
  *     tags: [Taqveem]
  *     parameters:
  *       - in: path
- *         name: sana
- *         required: true
+ *         name: serial
  *         schema:
- *           type: string
- *         example: "2023-03-23"
+ *           type: integer
+ *         required: true
+ *         description: Taqvim ID-si
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
  *           schema:
- *             type: object
- *             properties:
- *               saharlik:
- *                 type: string
- *                 example: "05:28"
- *               iftorlik:
- *                 type: string
- *                 example: "18:47"
+ *             $ref: '#/components/schemas/Taqveem'
  *     responses:
  *       200:
- *         description: Updated
- *         content:
- *           application/json:
- *             example:
- *               message: "Ma'lumot muvaffaqiyatli yangilandi"
- *               data:
- *                 sana: "2023-03-23"
- *                 saharlik: "05:28"
- *                 iftorlik: "18:47"
+ *         description: Ma'lumot yangilandi
  *       404:
- *         description: Not Found
+ *         description: Ma'lumot topilmadi
  */
-taqveemRouter.put('/taqveem/:sana', update);
+taqveemRouter.put("/taqveem/:serial", update);
 
 /**
  * @swagger
- * /taqveem/{sana}:
+ * /api/taqveem/{serial}:
  *   delete:
- *     summary: Taqvimni o'chirish
+ *     summary: Taqvim ma'lumotini o‘chirish
  *     tags: [Taqveem]
  *     parameters:
  *       - in: path
- *         name: sana
- *         required: true
+ *         name: serial
  *         schema:
- *           type: string
- *         example: "2023-03-23"
+ *           type: integer
+ *         required: true
+ *         description: Taqvim ID-si
  *     responses:
  *       200:
- *         description: Deleted
- *         content:
- *           application/json:
- *             example:
- *               message: "Deleted successfully"
- *               sana: "2023-03-23"
+ *         description: Ma'lumot o‘chirildi
  *       404:
- *         description: Not Found
+ *         description: Ma'lumot topilmadi
  */
-taqveemRouter.delete('/taqveem/:sana', deleteOne);
+taqveemRouter.delete("/taqveem/:serial", deleteOne);
 
 module.exports = {
-	taqveemRouter
-}
+  taqveemRouter,
+};
