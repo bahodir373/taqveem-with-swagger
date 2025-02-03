@@ -12,6 +12,7 @@ const duaRouter = require('./routers/dua.router')
 const app = express();
 app.use(express.json())
 app.use(cors())
+app.options('*', cors());
 connectDB()
 
 const PORT = process.env.PORT || 4001
@@ -24,7 +25,7 @@ const swaggerOptions = {
       description: 'Ramazon taqvimi malumotlarini boshqarish API',
     },
     servers: [
-      { url: `http://localhost:5000`, description: 'Local server' },
+      { url: `http://localhost:${PORT}`, description: 'Local server' },
     ],
   },
   apis: ['./routers/*.js'],
