@@ -24,7 +24,7 @@ const swaggerOptions = {
       description: 'Ramazon taqvimi malumotlarini boshqarish API',
     },
     servers: [
-      { url: `http://localhost:${PORT}`, description: 'Local server' },
+      { url: `http://localhost:5000`, description: 'Local server' },
     ],
   },
   apis: ['./routers/*.js'],
