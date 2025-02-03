@@ -2,7 +2,7 @@ const { taqveem } = require('../models/taqveem.schema')
 
 const getAll = async (req, res) => {
 	try {
-		const data = await taqveem.find()
+		const data = await taqveem.find().sort({ serial: 1 });
 
 		return res.status(200).json(data)
 	} catch (error) {
@@ -107,7 +107,7 @@ const update = async (req, res) => {
       updatedData
     })
   } catch (error) {
-    console.log(error.message)
+    console.error(error)
     res.status(500).json({ error: error.message })
   }
 }

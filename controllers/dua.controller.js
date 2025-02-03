@@ -2,7 +2,7 @@ const { duaModel } = require('../models/dua.schema')
 
 const getAllDua = async (req, res) => {
 	try {
-		const data = await duaModel.find()
+		const data = await duaModel.find().sort({ serial: 1 });
 
 		return res.status(200).json(data)
 	} catch (error) {
@@ -48,7 +48,7 @@ const updateDua = async (req,res) => {
 		const {
       serial, title, description, arabic_doa, transliteration, translate} = req.body 
 
-    const updatedData = await taqveem.findOneAndUpdate(
+    const updatedData = await duaModel.findOneAndUpdate(
       { serial }, 
       { serial, title, description, arabic_doa, transliteration, translate },
       { new: true }
