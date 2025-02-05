@@ -37,7 +37,7 @@ const swaggerOptions = {
       description: 'Ramazon taqvimi malumotlarini boshqarish API',
     },
     servers: [
-      { url: `http://taqveem-with-swagger-production.up.railway.app`, description: 'Server online' },
+      { url: 'https://taqveem-with-swagger-production.up.railway.app', description: 'Server online' },
     ],
   },
   apis: ['./routers/*.js'],
